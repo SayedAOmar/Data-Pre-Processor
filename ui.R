@@ -1,6 +1,6 @@
 library(shinydashboard)
 ######################################################################  Header Component ##############################################################
-header <- dashboardHeader(title = "Churnless")
+header <- dashboardHeader(title = "Data Pre-Processor")
 #header$children[[2]]$children <-  tags$img(src='http://www.analyticspatrols.com/wp-content/uploads/2017/12/AnalyticsPatrols-Logo.jpg',height='55',width='200')
 ######################################################################  Sidebar Component #############################################################
 sidebar <-dashboardSidebar(
@@ -14,7 +14,9 @@ sidebar <-dashboardSidebar(
 )
 ######################################################################  Body Component ##############################################################
 body <- dashboardBody(
+  #tabs here means pages
   tabItems(
+    # Upload dataset Page
     tabItem(
       tabName = "upload",
       fluidRow(
@@ -73,18 +75,59 @@ body <- dashboardBody(
         )
       )
     ),
+    # Processing page
     tabItem(
       tabName = "config",
+      # First row
       fluidRow(
-        
         box(
           width         = 4,
-          height   	  = 460,
-          title         = "Historical Churn Rate",
+          title         = "Choose Variables you need",
           status        = "success",
           solidHeader   = TRUE,
           collapsible   = TRUE,
-          uiOutput('churn_rate')
+          uiOutput('feature_selection')
+        ),
+        box(
+          width         = 4,
+          title         = "Assign Action to Features",
+          status        = "success",
+          solidHeader   = TRUE,
+          collapsible   = TRUE,
+          uiOutput('feature_name'),
+          uiOutput('feature_action'),
+          uiOutput('feature_action_value'),
+          actionButton("add_feature_action", "Add",icon("arrow-right-circle"),class="btn btn-success")
+        ),
+        box(
+          width         = 4,
+          title         = "Features Processes",
+          status        = "success",
+          solidHeader   = TRUE,
+          collapsible   = TRUE,
+          uiOutput('feature_actions_view')
+        )
+      ),
+      # Second row
+      fluidRow(
+        box(
+          width         = 12,
+          title         = "Variables Histogram",
+          status        = "success",
+          solidHeader   = TRUE,
+          collapsible   = TRUE,
+          textOutput('dummy')
+        )
+      ),
+      # Third row
+      fluidRow(
+        box(
+          width         = 12,
+          title         = "Variables Histogram",
+          status        = "success",
+          solidHeader   = TRUE,
+          collapsible   = TRUE,
+          tableOutput('variables_histogram')
         )
       )
     )
