@@ -112,14 +112,14 @@ body <- dashboardBody(
       fluidRow(
         box(
           width         = 12,
-          title         = "Variables Histogram",
-          status        = "success",
+          title         = "Instruction",
+          status        = "warning",
           solidHeader   = TRUE,
           collapsible   = TRUE,
-          textOutput('dummy')
+          tags$p("- fillna")
         )
       ),
-      # Third row
+      # Second row
       fluidRow(
         box(
           width         = 12,
@@ -127,7 +127,7 @@ body <- dashboardBody(
           status        = "success",
           solidHeader   = TRUE,
           collapsible   = TRUE,
-          tableOutput('variables_histogram')
+          dataTableOutput('variables_histogram')
         )
       )
     )

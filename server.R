@@ -11,10 +11,12 @@ options(shiny.maxRequestSize=30*1024^3)#limit 30MB
 ######################################################################  Server side processing ##############################################################
 shinyServer(function(input, output,session) {
   dataset_view(input,output) 
-  feature_selection_view(input,output)
-  variables_histogram(input,output)
-  feature_action(input,output)
-  feature_action_view(input,output)
+  observeEvent(input$dataset,{
+    feature_selection_view(input,output)
+    variables_histogram(input,output)
+    feature_action(input,output)
+    feature_action_view(input,output)
+  })
   observeEvent(input$feature_selection,{
       selected_columns <<- list(input$feature_selection)
   })
@@ -47,7 +49,7 @@ read_dataset 	 <- function(input,output)
 ######################################################################  Variables Histogram
 variables_histogram <- function(input,output)
 {
-  output$variables_histogram <- renderTable(head(dataset,5))
+  output$variables_histogram <- renderDataTable(head(dataset,5))
 }
 ######################################################################  Selecting Features (Variables)
 feature_selection_view   <- function(input,output)
@@ -74,7 +76,6 @@ feature_action   <- function(input,output)
 ######################################################################  Features (Variables) Actions
 feature_action_view   <- function(input,output)
 {
-  features          <- colnames(dataset)
   output$feature_actions_view <- renderUI({
     textAreaInput("feature_action_view","Your Processes are : ", value = "", width = NULL, height = NULL, cols = NULL, rows = 11, placeholder = "Your Processes Appears here", resize = "none")
   })
