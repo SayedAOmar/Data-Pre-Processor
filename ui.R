@@ -80,14 +80,7 @@ body <- dashboardBody(
       tabName = "config",
       # First row
       fluidRow(
-        box(
-          width         = 4,
-          title         = "Choose Variables you need",
-          status        = "success",
-          solidHeader   = TRUE,
-          collapsible   = TRUE,
-          uiOutput('feature_selection')
-        ),
+        
         box(
           width         = 4,
           title         = "Assign Action to Features",
@@ -106,6 +99,15 @@ body <- dashboardBody(
           solidHeader   = TRUE,
           collapsible   = TRUE,
           uiOutput('feature_actions_view')
+        ),
+        box(
+          width         = 4,
+          title         = "Choose Variables you need",
+          status        = "success",
+          solidHeader   = TRUE,
+          collapsible   = TRUE,
+          uiOutput('feature_selection'),
+          actionButton("apply_config", "Apply Configuration",icon("arrow-right-circle"),class="btn btn-primary")
         )
       ),
       # Second row
