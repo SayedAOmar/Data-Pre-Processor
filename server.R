@@ -5,6 +5,7 @@ library(ggplot2)
 library(gridExtra)
 library('broom')
 library(Hmisc)
+library(openxlsx)
 options(shiny.maxRequestSize=30*1024^3)#limit 30MB
 ######################################################################  Server side processing ##############################################################
 shinyServer(function(input, output,session) {
@@ -42,6 +43,9 @@ shinyServer(function(input, output,session) {
         selectInput("feature_action_value", 'Select Value to process', c("no value","zero","mode"), selected = NULL, multiple = FALSE,selectize = TRUE, width = NULL, size = NULL)
       }
     })
+  })
+  observeEvent(input$export,{
+    export_dataset(input,output)
   })
 })
 ######################################################################  View Dataset as table
@@ -180,4 +184,33 @@ apply_config              <- function(input,output)
       }
     }
   }
+  dataset                 <<- dataset
+}
+######################################################################  Export Area
+export_dataset <- function(input,output)
+{
+  format <- input$select_format
+  file_name <- paste0("exported/new_dataset.",format)
+  if(format== "csv")
+  {
+    #write.csv(dataset, file = file_name)
+    write.table(dataset, file = file_name, row.names=FALSE, sep=",")
+  }
+  else if(format =="tsv" | format == "txt")
+  {
+    #write.tsv(dataset, file = file_name)
+    write.table(dataset, file = file_name, row.names=FALSE, sep="\t")
+
+  }
+  else if(format =="xlsx")
+  {
+    #write.xlsx(dataset, file = file_name)
+    write.xlsx(dataset, file_name, sheetName="Sheet1", col.names=TRUE, row.names=TRUE, append=FALSE, showNA=TRUE, password=NULL)
+  }
+  showModal(modalDialog(
+      title     = "Export Dataset",
+      "Your dataset saved successfully!",
+      easyClose = TRUE,
+      footer    = NULL
+  ))
 }

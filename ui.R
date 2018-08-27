@@ -9,7 +9,7 @@ sidebar <-dashboardSidebar(
     menuItem("Upload Dataset", icon = icon("upload"), tabName = "upload"),
     menuItem("Processing", tabName = "config", icon = icon("gear"))
   ),
-  tags$img(src='http://www.analyticspatrols.com/wp-content/uploads/2017/12/AnalyticsPatrols-Logo.jpg',height='55',width='200', class="logo_bottom"),
+  #tags$img(src='http://www.analyticspatrols.com/wp-content/uploads/2017/12/AnalyticsPatrols-Logo.jpg',height='55',width='200', class="logo_bottom"),
   tags$style(type='text/css', ".logo_bottom { position:fixed;bottom:0px;left:0px;width:230px; }")
 )
 ######################################################################  Body Component ##############################################################
@@ -113,12 +113,22 @@ body <- dashboardBody(
       # Second row
       fluidRow(
         box(
-          width         = 12,
+          width         = 4,
+          title         = "Save Dataset",
+          status        = "success",
+          solidHeader   = TRUE,
+          collapsible   = TRUE,
+          selectInput("select_format","Select format", c("csv","tsv","xlsx","txt"), selected = "csv", multiple = FALSE,selectize = TRUE, width = NULL, size = NULL),
+          actionButton("export", "Export",icon("arrow-right-circle"),class="btn btn-primary")
+        ),
+        box(
+          width         = 8,
           title         = "Instruction",
           status        = "warning",
           solidHeader   = TRUE,
           collapsible   = TRUE,
-          tags$p("- fillna")
+          tags$p("- fillna : will replace empty values with the value you will select from the select box "),
+          tags$p("- dropna : will remove row which has empty values")
         )
       ),
       # Second row
